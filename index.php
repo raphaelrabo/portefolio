@@ -1,0 +1,162 @@
+<?php
+// Traitement du formulaire
+$successMessage = "";
+$errorMessage = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nettoyage des données
+    $name = htmlspecialchars(trim($_POST["name"]));
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $message = htmlspecialchars(trim($_POST["message"]));
+
+    // Validation des champs
+    if (!empty($name) && !empty($email) && !empty($message) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // Destinataire
+        $to = "ton.email@domaine.com"; // 🔒 Remplace par ton adresse
+        $subject = "Nouveau message de $name via le portfolio";
+        $body = "Nom: $name\nEmail: $email\nMessage:\n$message";
+        $headers = "From: $email";
+
+        if (mail($to, $subject, $body, $headers)) {
+            $successMessage = "Votre message a bien été envoyé. Merci !";
+        } else {
+            $errorMessage = "Une erreur est survenue lors de l'envoi du message.";
+        }
+    } else {
+        $errorMessage = "Veuillez remplir tous les champs correctement.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Développeur Web</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header">
+            <nav>
+                <ul>
+                    <li><a href="#about">À propos</a></li>
+                    <li><a href="#projects">Projets</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="container">
+            <h1>Bienvenue sur mon Portfolio</h1>
+            <p>Développeur Web - Passionné par le code et les technologies modernes</p>
+            
+        </div>
+    </header>
+
+    <main>
+        <section id="about" class="section">
+            <div class="container">
+                <h2>À propos de moi</h2>
+                <p>Salut, je suis Raphael Adjovi-Boco--Ortega </p>
+                    <p>Après 3 ans d'expérience en développement web fullstack et mobile, j'ai pu développer mes compétences frontend et backend. </p>
+                    <p> Mon master d'Architecte logiciel et développeur d'applications en poche, je suis désormais à la recherche d'un emploi en tant que développeur fullstack, frontend ou backend dans une entreprise qui me permettra d'exprimer toutes mes compétences au profit d'un projet innovant et/ou plein de sens.</p>
+            </div>  <div class="container">
+                <h2>Stack Technique</h2>
+                <h3>Frontend</h3>
+                <p>Pour ce qui est du frontend, je me spécialise dans le Javascript et suis particulièrement familier avec les frameworks React (NextJS) et Angular. </div>
+                <h3>Backend </h3>
+                <p> Pour le backend, j'ai beaucoup travaillé en SpringBoot mais j'ai aussi pu travailler avec du nodeJS (AdonisJS). J'ai aussi pu un peu toucher au monde du mobile avec React Native</div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="container">
+                <h2>Mes Projets</h2>
+                <div class="project-grid">
+                    <div class="project">
+                        <h3>Bomberman</h3>
+                        <p>Reproduction du jeu bomberman en réseau en C</p>
+                    </div>
+                    <div class="project">
+                        <a href="https://github.com" target="https://github.com/raphaeladjovi/gayle" aria-label="LinkedIn">
+                            <img src="img/linkedin-icon.png" alt="Gayle" class="icon">
+                        </a>
+                        <h3>Gayle</h3>
+                        <p>Site de portfolio interactif avec animations CSS.</p>
+                    </div>
+                    <div class="project">
+                        <h3>Pantin Gyms</h3>
+                        <p>Site vitrine </p>
+                         <a href="https://pantingyms.fr/" target="https://pantingyms.fr/" aria-label="Pantin Gym">
+                            <img src="img/linkedin-icon.png" alt="Pantin Gym" class="icon">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="experience" class="section">
+            <div class="container">
+                <h2>Mes experience</h2>
+                <div class="experience-grid">
+                   
+                    <div class="experience">
+                        <img src="img/pmsalogo.png" alt="Logo Sirius Media" class="icon">
+                        <h3>Sirius Media</h3>
+                        <h4>Alternance | Février 2022 - Décembre 2024</h4>
+                        <ul>
+                          <li><strong>Mise en place du SSO (Single Sign-On)</strong> pour unifier l'authentification.</li>
+                          <li><strong>Intégration de 11 applications</strong> internes avec gestion des rôles.</li>
+                          <li><strong>Documentation complète</strong> du code existant pour faciliter la maintenance.</li>
+                          <li><strong>Refactorisation et normalisation du code</strong> pour modulariser les applicatifs.</li>
+                          <li><strong>Sécurisation des accès</strong> SSO avec bonnes pratiques et audit de sécurité.</li>
+                          <li><strong>Conception et développement</strong> d'applications métiers sur mesure.</li>
+                          <li><strong>Encadrement des nouveaux arrivants</strong> : formations, directives et code review.</li>
+                          <li><strong>Création d’un template d’application</strong> réutilisable pour les futurs projets.</li>
+                        </ul>
+                    </div>
+                    <div class="experience">
+                        <img src="img/heedesklogo.jpg" alt="LinkedIn" class="icon">
+                        <h3>Heedesk</h3>
+                        <h4> Stage de 2 mois  - </h4>
+                        <p>Au cours de ce stage j'ai pu participer au développement application en Vue.js 
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Contactez-moi</h2>
+                <form id="contact-form">
+                    <label for="name">Nom :</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email :</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="message">Message :</label>
+                    <textarea id="message" name="message" required></textarea>
+
+                    <button type="submit">Envoyer</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 - Adjovi-Boco--Ortega Raphael - Portfolio</p>
+            <div class="social-icons">
+                <a href="https://github.com" target="https://github.com/raphaeladjovi/" aria-label="GitHub">
+                    <img src="img/github-icon.png" alt="GitHub" class="icon">
+                </a>
+                <a href="https://linkedin.com" target="https://www.linkedin.com/in/adjovi-raphael/" aria-label="LinkedIn">
+                    <img src="img/linkedin-icon.png" alt="LinkedIn" class="icon">
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
